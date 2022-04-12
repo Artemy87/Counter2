@@ -1,0 +1,10 @@
+.incorrect {
+    font-weight: bold;
+    font-size: 2rem;
+    border: 5px solid #e36363;
+    border-radius: 15px;
+    color: #e36363;
+    margin: 30px;
+    padding: 35px;
+    background: white;
+}
