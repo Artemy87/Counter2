@@ -1,50 +1,28 @@
-import React, {useState} from 'react';
-import s from './App.module.css';
+import React from 'react';
+import {useSelector} from "react-redux";
 import {Counter} from "./components/Counter/Counter";
 import {CounterInterface} from "./components/CoounterInterface/CounterInterface";
+import {StateType} from "./bll/counterReducer";
+import {AppStateType} from "./bll/store";
+
+import s from './App.module.css';
 
 
 function App() {
 
-    const [startValue, setStartValue] = useState(1);
-    const [maxValue, setMaxValue] = useState(5);
-    const [counter, setCounter] = useState(startValue);
-    const [editMode, setEditMode] = useState(false);
-    const [editCounter, setEditCounter] = useState(false)
-
-    const onIncrement = () => {
-        setCounter(counter => counter + 1)
-    }
-    const onReset = () => {
-        setCounter(startValue)
-    }
-
-    const logicInput = maxValue < 0 || startValue < 0 || startValue > maxValue || maxValue === startValue
+    const counter = useSelector<AppStateType, StateType>(state => state.counter)
+    const logicInput = counter.maxValue < 0 || counter.startValue < 0 || counter.startValue > counter.maxValue || counter.maxValue === counter.startValue
 
     return (
         <div className={s.grid}>
-            {editCounter ?
+            {counter.editCounter ?
                 <CounterInterface
-                    startValue={startValue}
-                    maxValue={maxValue}
-                    setCounter={setCounter}
-                    setMaxValue={setMaxValue}
-                    setStartValue={setStartValue}
                     disabledValue={logicInput}
-                    editMode={editMode}
-                    setEditMode={setEditMode}
                     logicInput={logicInput}
-                    setEditCounter={setEditCounter}
                 />
                 : <Counter
-                    disabledValue={counter === maxValue}
-                    counter={counter}
-                    maxValue={maxValue}
-                    onIncrement={onIncrement}
-                    onReset={onReset}
-                    editMode={editMode}
+                    disabledValue={counter.count === counter.maxValue}
                     logicInput={logicInput}
-                    setEditCounter={setEditCounter}
                 />
             }
         </div>
